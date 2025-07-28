@@ -18,7 +18,12 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @GetMapping()
+    public ResponseEntity<List<ProductDTO>> retrieveProducts() {
+        List<ProductDTO> productDTOListResponse = productService.retrieveProducts();
 
+        return productDTOListResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOListResponse);
+    }
     @PostMapping
     public ResponseEntity<ProductDTO> productCreate(@Valid @RequestBody ProductDTO productDTO){
 
@@ -28,17 +33,25 @@ public class ProductController {
     }
 
 //    @GetMapping()
-//    public ResponseEntity<List<ProductDTO>> retrieveProducts(){
+//    public ResponseEntity<ProductDTO> retrieveProduct(@RequestParam(required = false) String productId){
 //
-//        List<ProductDTO> productDTOListResponse = productService.retrieveProducts();
+//        ProductDTO productDTOResponse = productService.retrieveProduct(productId);
 //
-//        return productDTOListResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOListResponse);
+//        return productDTOResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOResponse);
 //    }
 
-    @GetMapping()
-    public ResponseEntity<ProductDTO> retrieveProduct(@RequestParam(required = false) String productId){
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductDTO> retrieveProduct(@PathVariable("productId") String productId){
 
         ProductDTO productDTOResponse = productService.retrieveProduct(productId);
+
+        return productDTOResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOResponse);
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductDTO> productUpdate(@PathVariable("productId") String productId, @Valid @RequestBody ProductDTO productDTO){
+
+        ProductDTO productDTOResponse = productService.productUpdate(productId, productDTO);
 
         return productDTOResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOResponse);
     }
