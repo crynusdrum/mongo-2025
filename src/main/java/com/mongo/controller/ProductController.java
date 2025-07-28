@@ -7,15 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("v1/product")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -30,12 +27,20 @@ public class ProductController {
         return productDTOResponse ==null ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : ResponseEntity.ok(productDTOResponse);
     }
 
+//    @GetMapping()
+//    public ResponseEntity<List<ProductDTO>> retrieveProducts(){
+//
+//        List<ProductDTO> productDTOListResponse = productService.retrieveProducts();
+//
+//        return productDTOListResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOListResponse);
+//    }
+
     @GetMapping()
-    public ResponseEntity<List<ProductDTO>> retrieveProducts(){
+    public ResponseEntity<ProductDTO> retrieveProduct(@RequestParam(required = false) String productId){
 
-        List<ProductDTO> productDTOListResponse = productService.retrieveProducts();
+        ProductDTO productDTOResponse = productService.retrieveProduct(productId);
 
-        return productDTOListResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOListResponse);
+        return productDTOResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOResponse);
     }
 
 
