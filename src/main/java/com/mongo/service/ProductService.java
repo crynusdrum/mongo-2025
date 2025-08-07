@@ -73,6 +73,19 @@ public class ProductService {
         }
     }
 
+    @Transactional
+    public String productDelete(String itemId) {
+
+        ProductEntity productEntityFromDB = getItemEntity(itemId);
+
+        if (productEntityFromDB == null) {
+            return null;
+        } else {
+            productRepository.delete(productEntityFromDB);
+            return productEntityFromDB.getId();
+        }
+    }
+
 
 
 }

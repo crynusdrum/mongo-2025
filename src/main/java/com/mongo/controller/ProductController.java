@@ -32,14 +32,6 @@ public class ProductController {
         return productDTOResponse ==null ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : ResponseEntity.ok(productDTOResponse);
     }
 
-//    @GetMapping()
-//    public ResponseEntity<ProductDTO> retrieveProduct(@RequestParam(required = false) String productId){
-//
-//        ProductDTO productDTOResponse = productService.retrieveProduct(productId);
-//
-//        return productDTOResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOResponse);
-//    }
-
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDTO> retrieveProduct(@PathVariable("productId") String productId){
 
@@ -54,6 +46,14 @@ public class ProductController {
         ProductDTO productDTOResponse = productService.productUpdate(productId, productDTO);
 
         return productDTOResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOResponse);
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> productDelete(@PathVariable("productId") String productId){
+
+        String id = productService.productDelete(productId);
+
+        return id ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok().build();
     }
 
 
