@@ -18,12 +18,21 @@ public class ProductController {
 
     private final ProductService productService;
 
+//    @GetMapping()
+//    public ResponseEntity<List<ProductDTO>> retrieveProductsOld() {
+//        List<ProductDTO> productDTOListResponse = productService.retrieveProducts();
+//
+//        return productDTOListResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOListResponse);
+//    }
+
     @GetMapping()
-    public ResponseEntity<List<ProductDTO>> retrieveProducts() {
-        List<ProductDTO> productDTOListResponse = productService.retrieveProducts();
+    public ResponseEntity<List<ProductDTO>> retrieveProducts(@RequestParam(required = false) String id,
+                                                             @RequestParam(required = false) String description) {
+        List<ProductDTO> productDTOListResponse = productService.retrieveProducts(id, description);
 
         return productDTOListResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOListResponse);
     }
+
     @PostMapping
     public ResponseEntity<ProductDTO> productCreate(@Valid @RequestBody ProductDTO productDTO){
 
