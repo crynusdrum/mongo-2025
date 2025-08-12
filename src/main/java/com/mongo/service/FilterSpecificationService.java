@@ -17,7 +17,7 @@ public class FilterSpecificationService<T> {
         }
 
         if (searchDTOList.size() == 1) {
-            SearchDTO dto = searchDTOList.get(0);
+            SearchDTO dto = searchDTOList.getFirst();
             return new Query(Criteria.where(dto.getColumnName()).is(dto.getColumnValue()));
         }
 
