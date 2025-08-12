@@ -4,12 +4,12 @@ import com.mongo.dto.ProductDTO;
 import com.mongo.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("v1/product")
@@ -19,11 +19,14 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping()
-    public ResponseEntity<List<ProductDTO>> retrieveProducts() {
-        List<ProductDTO> productDTOListResponse = productService.retrieveProducts();
+    public ResponseEntity<Page<ProductDTO>> retrieveProducts(@RequestParam(required = false) String id,
+                                                            @RequestParam(required = false) String description,
+                                                            Pageable pageable) {
+        Page<ProductDTO> productDTOListPageableResponse = productService.retrieveProducts(id, description, pageable);
 
-        return productDTOListResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOListResponse);
+        return productDTOListPageableResponse ==null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(productDTOListPageableResponse);
     }
+
     @PostMapping
     public ResponseEntity<ProductDTO> productCreate(@Valid @RequestBody ProductDTO productDTO){
 
